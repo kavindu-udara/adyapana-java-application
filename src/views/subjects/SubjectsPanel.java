@@ -27,13 +27,14 @@ public class SubjectsPanel extends javax.swing.JPanel {
         DefaultTableModel tableModel = (DefaultTableModel) subjectsTable.getModel();
         tableModel.setRowCount(0);
         try {
-            ResultSet resultSet = MysqlConnection.executeSearch("SELECT * FROM `subjects`");
+            String searchString = searchField.getText();
+            ResultSet resultSet = MysqlConnection.executeSearch("SELECT * FROM `subjects` WHERE `name` LIKE '%"+searchString+"%' ");
             while (resultSet.next()) {                
                 Vector vector = new Vector();
                 vector.add(resultSet.getString("id"));
-                vector.add(resultSet.getString("description"));
-                vector.add(resultSet.getString("price"));
                 vector.add(resultSet.getString("name"));
+                vector.add(resultSet.getString("price"));
+                vector.add(resultSet.getString("description"));
                 
                 tableModel.addRow(vector);
             }
@@ -56,13 +57,14 @@ public class SubjectsPanel extends javax.swing.JPanel {
         subjectsTable = new javax.swing.JTable();
         addButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        searchField = new javax.swing.JTextField();
 
         subjectsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "id", "description", "price", "name"
+                "id", "name", "price", "description"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -80,7 +82,9 @@ public class SubjectsPanel extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(subjectsTable);
 
+        addButton.setBackground(new java.awt.Color(255, 204, 204));
         addButton.setText("add");
+        addButton.setOpaque(false);
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addButtonActionPerformed(evt);
@@ -88,6 +92,12 @@ public class SubjectsPanel extends javax.swing.JPanel {
         });
 
         jLabel1.setText("Subjects");
+
+        searchField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchFieldKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -100,6 +110,8 @@ public class SubjectsPanel extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(addButton)))
                 .addContainerGap())
         );
@@ -109,7 +121,8 @@ public class SubjectsPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addButton)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE)
                 .addContainerGap())
@@ -135,11 +148,17 @@ public class SubjectsPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_subjectsTableMouseClicked
 
+    private void searchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyReleased
+        // TODO add your handling code here:
+        loadTableData();
+    }//GEN-LAST:event_searchFieldKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField searchField;
     private javax.swing.JTable subjectsTable;
     // End of variables declaration//GEN-END:variables
 }

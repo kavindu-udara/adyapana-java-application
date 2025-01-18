@@ -5,13 +5,22 @@
 package views.payments;
 
 import includes.MysqlConnection;
+import java.io.File;
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.sql.ResultSet;
+import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -20,7 +29,7 @@ import javax.swing.table.DefaultTableModel;
 public class PaymentPanel extends javax.swing.JPanel {
 
     private PaymentPanel paymentPanel = this;
-    
+
     /**
      * Creates new form PaymentPanel
      */
@@ -52,17 +61,16 @@ public class PaymentPanel extends javax.swing.JPanel {
         registerDate();
         try {
             String todayDate = getTodayDate();
-            ResultSet paymentResultSet = MysqlConnection.executeSearch("SELECT * FROM `payments` INNER JOIN `dates` ON `payments`.`dates_id`=`dates`.`id` WHERE `dates`.`date`='" + todayDate + "' ");
+            ResultSet paymentResultSet = MysqlConnection.executeSearch("SELECT * FROM `payments` INNER JOIN `dates` ON `payments`.`dates_id`=`dates`.`id` INNER JOIN `students` ON `payments`.`student_id`=`students`.`id` INNER JOIN `subjects` ON `payments`.`subject_id`=`subjects`.`id` WHERE `dates`.`date`='" + todayDate + "' ");
 
             DefaultTableModel tableModel = (DefaultTableModel) paymentsTable.getModel();
             tableModel.setRowCount(0);
             while (paymentResultSet.next()) {
                 Vector vector = new Vector();
                 vector.add(paymentResultSet.getString("id"));
+                vector.add(paymentResultSet.getString("subjects.name"));
+                vector.add(paymentResultSet.getString("students.name"));
                 vector.add(paymentResultSet.getString("value"));
-                vector.add(paymentResultSet.getString("student_id"));
-                vector.add(paymentResultSet.getString("subject_id"));
-                vector.add(paymentResultSet.getString("dates_id"));
 
                 tableModel.addRow(vector);
 
@@ -84,7 +92,7 @@ public class PaymentPanel extends javax.swing.JPanel {
 
                 ResultSet dateResultSet = MysqlConnection.executeSearch("SELECT * FROM `dates` WHERE `date`='" + todayDate + "' ");
                 if (dateResultSet.next()) {
-                    MysqlConnection.executeIUD("INSERT INTO `payments`(`student_id`, `subject_id`, `value`, `dates_id`) VALUES '" + studentId + "', '" + subjectId + "', '" + value + "', '" + dateResultSet.getString("id") + "' ");
+                    MysqlConnection.executeIUD("INSERT INTO `payments`(`student_id`, `subject_id`, `value`, `dates_id`) VALUES ('" + studentId + "', '" + subjectId + "', '" + value + "', '" + dateResultSet.getString("id") + "') ");
                     JOptionPane.showMessageDialog(this, "Created!");
                     loadTableData();
                 }
@@ -107,6 +115,7 @@ public class PaymentPanel extends javax.swing.JPanel {
         paymentsTable = new javax.swing.JTable();
         dateLabel = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         paymentsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -117,23 +126,31 @@ public class PaymentPanel extends javax.swing.JPanel {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, true, true
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        paymentsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                paymentsTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(paymentsTable);
 
         dateLabel.setText("date");
 
+        jButton1.setBackground(new java.awt.Color(255, 204, 204));
         jButton1.setText("add");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        jLabel1.setText("payments");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -142,9 +159,11 @@ public class PaymentPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(235, 235, 235)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(dateLabel)
                         .addGap(43, 43, 43)
                         .addComponent(jButton1)))
@@ -153,12 +172,14 @@ public class PaymentPanel extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(dateLabel)
-                    .addComponent(jButton1))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(dateLabel)
+                        .addComponent(jButton1))
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -168,10 +189,41 @@ public class PaymentPanel extends javax.swing.JPanel {
         new CreatePaymentDialog(null, true, paymentPanel).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void paymentsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paymentsTableMouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            int row = paymentsTable.getSelectedRow();
+
+            if (row > -1) {
+                String subjectString = String.valueOf(paymentsTable.getValueAt(row, 1));
+                String studentString = String.valueOf(paymentsTable.getValueAt(row, 2));
+                String valueString = String.valueOf(paymentsTable.getValueAt(row, 3));
+                try {
+                    InputStream s = this.getClass().getResourceAsStream("/resources/adayapana_payment_invoice.jasper");
+                    HashMap<String, Object> params = new HashMap<>();
+                    params.put("DateParam", dateLabel.getText());
+                    params.put("NameParam", studentString);
+                    params.put("SubjectParam", subjectString);
+                    params.put("ValueParam", valueString);
+                    params.put("TotalParam", valueString);
+
+                    JREmptyDataSource dataSource = new JREmptyDataSource();
+                    JasperPrint report = JasperFillManager.fillReport(s, params, dataSource);
+
+                    JasperViewer.viewReport(report, false);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }//GEN-LAST:event_paymentsTableMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel dateLabel;
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable paymentsTable;
     // End of variables declaration//GEN-END:variables

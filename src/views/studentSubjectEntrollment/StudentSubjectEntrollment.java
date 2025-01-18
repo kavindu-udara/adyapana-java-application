@@ -27,12 +27,13 @@ public class StudentSubjectEntrollment extends javax.swing.JPanel {
         DefaultTableModel tableModel = (DefaultTableModel) entrollmentsTable.getModel();
         tableModel.setRowCount(0);
         try {
-            ResultSet studentsResultSet = MysqlConnection.executeSearch("SELECT * FROM `student_subject_entrollments`");
+            String searchString = searchField.getText();
+            ResultSet studentsResultSet = MysqlConnection.executeSearch("SELECT * FROM `student_subject_entrollments` INNER JOIN `students` ON `student_subject_entrollments`.`student_id`=`students`.`id` INNER JOIN `subjects` ON `student_subject_entrollments`.`subject_id`=`subjects`.`id` WHERE `students`.`name` LIKE '%"+searchString+"%' OR `subjects`.`name` LIKE '%"+searchString+"%' ");
             while (studentsResultSet.next()) {
                 Vector vector = new Vector();
                 vector.add(studentsResultSet.getString("id"));
-                vector.add(studentsResultSet.getString("student_id"));
-                vector.add(studentsResultSet.getString("subject_id"));
+                vector.add(studentsResultSet.getString("students.name"));
+                vector.add(studentsResultSet.getString("subjects.name"));
                 tableModel.addRow(vector);
             }
             entrollmentsTable.setModel(tableModel);
@@ -54,6 +55,7 @@ public class StudentSubjectEntrollment extends javax.swing.JPanel {
         entrollmentsTable = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        searchField = new javax.swing.JTextField();
 
         entrollmentsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -87,6 +89,12 @@ public class StudentSubjectEntrollment extends javax.swing.JPanel {
 
         jLabel1.setText("Students Entrollments");
 
+        searchField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchFieldKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -98,6 +106,8 @@ public class StudentSubjectEntrollment extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
                         .addComponent(jButton1)))
                 .addContainerGap())
         );
@@ -107,7 +117,8 @@ public class StudentSubjectEntrollment extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -115,7 +126,7 @@ public class StudentSubjectEntrollment extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new RegisterEntrollment(null, true, () -> {
+        new AddEntrollment(null, true, () -> {
             loadTableData();
         }).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -131,11 +142,17 @@ public class StudentSubjectEntrollment extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_entrollmentsTableMouseClicked
 
+    private void searchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyReleased
+        // TODO add your handling code here:
+        loadTableData();
+    }//GEN-LAST:event_searchFieldKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable entrollmentsTable;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField searchField;
     // End of variables declaration//GEN-END:variables
 }

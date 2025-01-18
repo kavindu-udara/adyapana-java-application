@@ -70,14 +70,18 @@ public class RegisterTeacher extends javax.swing.JDialog {
 
         jLabel2.setText("line");
 
+        jButton1.setBackground(new java.awt.Color(255, 204, 204));
         jButton1.setText("Register");
+        jButton1.setOpaque(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
+        jButton2.setBackground(new java.awt.Color(255, 204, 204));
         jButton2.setText("Reset");
+        jButton2.setOpaque(false);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);

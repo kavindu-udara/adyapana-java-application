@@ -72,8 +72,9 @@ public class Dashboard extends javax.swing.JFrame {
         setTitle("adyapana");
         setResizable(false);
 
-        topPanel.setBackground(new java.awt.Color(0, 204, 255));
+        topPanel.setBackground(new java.awt.Color(255, 204, 204));
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setText("Adyapana");
 
         javax.swing.GroupLayout topPanelLayout = new javax.swing.GroupLayout(topPanel);
@@ -93,51 +94,63 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        buttonsPanel.setBackground(new java.awt.Color(153, 153, 255));
-
+        jButton1.setBackground(new java.awt.Color(255, 204, 204));
         jButton1.setText("Students");
+        jButton1.setOpaque(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
+        jButton2.setBackground(new java.awt.Color(255, 204, 204));
         jButton2.setText("Teachers");
+        jButton2.setOpaque(false);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
+        jButton3.setBackground(new java.awt.Color(255, 204, 204));
         jButton3.setText("Subjects");
+        jButton3.setOpaque(false);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
+        jButton4.setBackground(new java.awt.Color(255, 204, 204));
         jButton4.setText("Classes");
+        jButton4.setOpaque(false);
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
 
+        jButton5.setBackground(new java.awt.Color(255, 204, 204));
         jButton5.setText("student entrollments");
+        jButton5.setOpaque(false);
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
             }
         });
 
+        attendanceButton.setBackground(new java.awt.Color(255, 204, 204));
         attendanceButton.setText("Attendance");
+        attendanceButton.setOpaque(false);
         attendanceButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 attendanceButtonActionPerformed(evt);
             }
         });
 
+        jButton6.setBackground(new java.awt.Color(255, 204, 204));
         jButton6.setText("Payments");
+        jButton6.setOpaque(false);
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);

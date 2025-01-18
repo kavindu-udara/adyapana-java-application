@@ -81,7 +81,7 @@ public class UpdateTeacher extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         addressField = new javax.swing.JTextField();
         updateButton = new javax.swing.JButton();
-        resetButton = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         citiesComboBox = new javax.swing.JComboBox<>();
 
@@ -93,17 +93,21 @@ public class UpdateTeacher extends javax.swing.JDialog {
 
         jLabel2.setText("address");
 
+        updateButton.setBackground(new java.awt.Color(255, 204, 204));
         updateButton.setText("Update");
+        updateButton.setOpaque(false);
         updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateButtonActionPerformed(evt);
             }
         });
 
-        resetButton.setText("Reset");
-        resetButton.addActionListener(new java.awt.event.ActionListener() {
+        deleteButton.setBackground(new java.awt.Color(255, 204, 204));
+        deleteButton.setText("Delete");
+        deleteButton.setOpaque(false);
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                resetButtonActionPerformed(evt);
+                deleteButtonActionPerformed(evt);
             }
         });
 
@@ -119,7 +123,7 @@ public class UpdateTeacher extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(updateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(resetButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -155,7 +159,7 @@ public class UpdateTeacher extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(updateButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(resetButton)
+                .addComponent(deleteButton)
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -192,20 +196,46 @@ public class UpdateTeacher extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_updateButtonActionPerformed
 
-    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         // TODO add your handling code here:
-        fillFields();
-    }//GEN-LAST:event_resetButtonActionPerformed
+        try {
+            int confirmation = JOptionPane.showConfirmDialog(null, "Are you sure ?", "Confirmation", JOptionPane.YES_NO_OPTION);
+            if (confirmation == JOptionPane.YES_OPTION) {
+                //get teacher classes list
+                ResultSet classesResultSet = MysqlConnection.executeSearch("SELECT * FROM `classes` WHERE `teacher_id`='" + tno + "' ");
+                if (classesResultSet.next()) {
+                    // delete from attendance
+                    MysqlConnection.executeIUD("DELETE FROM `attendance` WHERE `class_id`='" + classesResultSet.getString("id") + "' ");
+                }
+
+                //delete from classes
+                MysqlConnection.executeIUD("DELETE FROM `classes` WHERE `teacher_id`='" + tno + "' ");
+                // delete from invoices
+                MysqlConnection.executeIUD("DELETE FROM `invoices` WHERE `teacher_id`='" + tno + "' ");
+                // delete from teacher_has_subject
+                MysqlConnection.executeIUD("DELETE FROM `teacher_has_subject` WHERE `teacher_id`='" + tno + "' ");
+                //delete from teachers
+                MysqlConnection.executeIUD("DELETE FROM `teachers` WHERE `id`='" + tno + "' ");
+
+                JOptionPane.showMessageDialog(this, "account deleted ");
+                reloadTableAction.run();
+                dispose();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "account delete failed : " + e.getMessage());
+        }
+    }//GEN-LAST:event_deleteButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField addressField;
     private javax.swing.JComboBox<String> citiesComboBox;
+    private javax.swing.JButton deleteButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField nameField;
-    private javax.swing.JButton resetButton;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 

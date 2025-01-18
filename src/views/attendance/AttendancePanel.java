@@ -106,13 +106,12 @@ public class AttendancePanel extends javax.swing.JPanel {
         if (!classString.equals("Select")) {
             try {
                 String classId = classesHashMap.get(classString);
-                ResultSet resultSet = MysqlConnection.executeSearch("SELECT * FROM `attendance` WHERE `class_id`='" + classId + "' ");
+                ResultSet resultSet = MysqlConnection.executeSearch("SELECT * FROM `attendance` INNER JOIN `classes` ON `attendance`.`class_id`=`classes`.`id` INNER JOIN `students` ON `attendance`.`student_id`=`students`.`id` INNER JOIN `dates` ON `attendance`.`dates_id`=`dates`.`id` WHERE `attendance`.`class_id`='" + classId + "';");
                 while (resultSet.next()) {
                     Vector vector = new Vector();
                     vector.add(resultSet.getString("id"));
-                    vector.add(resultSet.getString("class_id"));
-                    vector.add(resultSet.getString("student_id"));
-                    vector.add(resultSet.getString("dates_id"));
+                    vector.add(resultSet.getString("classes.name"));
+                    vector.add(resultSet.getString("students.name"));
 
                     tableModel.addRow(vector);
                 }
@@ -168,7 +167,9 @@ public class AttendancePanel extends javax.swing.JPanel {
 
         dateLabel.setText("date");
 
+        jButton1.setBackground(new java.awt.Color(255, 204, 204));
         jButton1.setText("add student");
+        jButton1.setOpaque(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -193,7 +194,7 @@ public class AttendancePanel extends javax.swing.JPanel {
                         .addComponent(jLabel2)
                         .addGap(43, 43, 43)
                         .addComponent(dateLabel)
-                        .addGap(18, 18, 18)
+                        .addGap(72, 72, 72)
                         .addComponent(jButton1)))
                 .addContainerGap())
         );
@@ -205,11 +206,10 @@ public class AttendancePanel extends javax.swing.JPanel {
                     .addComponent(jLabel1)
                     .addComponent(classesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(dateLabel)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jButton1))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -235,7 +235,7 @@ public class AttendancePanel extends javax.swing.JPanel {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Please select a class first !");
         }
     }//GEN-LAST:event_jButton1ActionPerformed

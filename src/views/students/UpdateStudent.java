@@ -83,7 +83,7 @@ public class UpdateStudent extends javax.swing.JDialog {
 
         datePicker1 = new raven.datetime.component.date.DatePicker();
         updateButton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         citiesComboBox = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
@@ -96,17 +96,21 @@ public class UpdateStudent extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("update student");
 
+        updateButton.setBackground(new java.awt.Color(255, 204, 204));
         updateButton.setText("Update");
+        updateButton.setOpaque(false);
         updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateButtonActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Reset");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        deleteButton.setBackground(new java.awt.Color(255, 204, 204));
+        deleteButton.setText("Delete");
+        deleteButton.setOpaque(false);
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                deleteButtonActionPerformed(evt);
             }
         });
 
@@ -132,7 +136,7 @@ public class UpdateStudent extends javax.swing.JDialog {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(dobField, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE))
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -167,7 +171,7 @@ public class UpdateStudent extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
                 .addComponent(updateButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
+                .addComponent(deleteButton)
                 .addContainerGap())
         );
 
@@ -201,18 +205,40 @@ public class UpdateStudent extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_updateButtonActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        resetFields();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        try {
+            int confirmation = JOptionPane.showConfirmDialog(null, "Are you sure ?", "Confirmation", JOptionPane.YES_NO_OPTION);
+            if (confirmation == JOptionPane.YES_OPTION) {
+                // delete from payemts
+                MysqlConnection.executeIUD("DELETE FROM `payments` WHERE `student_id`='" + id + "'  ");
+
+                // delete from attendance
+                MysqlConnection.executeIUD("DELETE FROM `attendance` WHERE `student_id`='" + id + "'  ");
+
+                // delete from entrollment
+                MysqlConnection.executeIUD("DELETE FROM `student_subject_entrollments` WHERE `student_id`='" + id + "'  ");
+
+                // delete from student
+                MysqlConnection.executeIUD("DELETE FROM `students` WHERE `id`='" + id + "'  ");
+
+                JOptionPane.showMessageDialog(this, "Delete success");
+                reloadTableAction.run();
+                resetFields();
+                dispose();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Account delete failed : " + e.getMessage());
+        }
+    }//GEN-LAST:event_deleteButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField addressField;
     private javax.swing.JComboBox<String> citiesComboBox;
     private raven.datetime.component.date.DatePicker datePicker1;
+    private javax.swing.JButton deleteButton;
     private javax.swing.JFormattedTextField dobField;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

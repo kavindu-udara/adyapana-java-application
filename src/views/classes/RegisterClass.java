@@ -140,7 +140,9 @@ public class RegisterClass extends javax.swing.JDialog {
 
         jLabel3.setText("Time Slot");
 
+        createButton.setBackground(new java.awt.Color(255, 204, 204));
         createButton.setText("Create");
+        createButton.setOpaque(false);
         createButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createButtonActionPerformed(evt);
@@ -206,7 +208,9 @@ public class RegisterClass extends javax.swing.JDialog {
         });
         jScrollPane3.setViewportView(timeslotsTable);
 
+        jButton3.setBackground(new java.awt.Color(255, 204, 204));
         jButton3.setText("add new");
+        jButton3.setOpaque(false);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);

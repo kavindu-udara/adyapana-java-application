@@ -54,7 +54,9 @@ public class RegisterTimeSlot extends javax.swing.JDialog {
 
         jLabel2.setText("Finish at");
 
+        createButton.setBackground(new java.awt.Color(255, 204, 204));
         createButton.setText("create");
+        createButton.setOpaque(false);
         createButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createButtonActionPerformed(evt);

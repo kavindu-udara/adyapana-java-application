@@ -55,14 +55,18 @@ public class RegisterSubject extends javax.swing.JDialog {
 
         jLabel2.setText("price");
 
+        registerButton.setBackground(new java.awt.Color(255, 204, 204));
         registerButton.setText("Register");
+        registerButton.setOpaque(false);
         registerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 registerButtonActionPerformed(evt);
             }
         });
 
+        resetButton.setBackground(new java.awt.Color(255, 204, 204));
         resetButton.setText("Reset");
+        resetButton.setOpaque(false);
         resetButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 resetButtonActionPerformed(evt);

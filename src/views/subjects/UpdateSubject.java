@@ -55,7 +55,7 @@ public class UpdateSubject extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         priceField = new javax.swing.JTextField();
         updateButton = new javax.swing.JButton();
-        resetButton = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         nameField = new javax.swing.JTextField();
 
@@ -67,17 +67,21 @@ public class UpdateSubject extends javax.swing.JDialog {
 
         jLabel2.setText("price");
 
+        updateButton.setBackground(new java.awt.Color(255, 204, 204));
         updateButton.setText("Update");
+        updateButton.setOpaque(false);
         updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateButtonActionPerformed(evt);
             }
         });
 
-        resetButton.setText("Reset");
-        resetButton.addActionListener(new java.awt.event.ActionListener() {
+        deleteButton.setBackground(new java.awt.Color(255, 204, 204));
+        deleteButton.setText("Delete");
+        deleteButton.setOpaque(false);
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                resetButtonActionPerformed(evt);
+                deleteButtonActionPerformed(evt);
             }
         });
 
@@ -91,7 +95,7 @@ public class UpdateSubject extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(updateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(resetButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -123,7 +127,7 @@ public class UpdateSubject extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(updateButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(resetButton)
+                .addComponent(deleteButton)
                 .addGap(10, 10, 10))
         );
 
@@ -155,19 +159,46 @@ public class UpdateSubject extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_updateButtonActionPerformed
 
-    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         // TODO add your handling code here:
-        fillFields();
-    }//GEN-LAST:event_resetButtonActionPerformed
+
+        int confirmation = JOptionPane.showConfirmDialog(null, "Are you sure ?", "Confirmation", JOptionPane.YES_NO_OPTION);
+        if (confirmation == JOptionPane.YES_OPTION) {
+            try {
+                // delete from entrollment
+                MysqlConnection.executeIUD("DELETE FROM `student_subject_entrollments` WHERE `subject_id`='" + subo + "' ");
+
+                ResultSet classesResultSet = MysqlConnection.executeSearch("SELECT * FROM `classes` WHERE `subject_id`='" + subo + "' ");
+                while (classesResultSet.next()) {
+                    MysqlConnection.executeIUD("DELETE FROM `attendance` WHERE `class_id`='" + classesResultSet.getString("id") + "' ");
+                }
+
+                // delete from payments
+                MysqlConnection.executeIUD("DELETE FROM `classes` WHERE `subject_id`='" + subo + "' ");
+
+                // delete from payments
+                MysqlConnection.executeIUD("DELETE FROM `payments` WHERE `subject_id`='" + subo + "' ");
+
+                // delete from payments
+                MysqlConnection.executeIUD("DELETE FROM `invoices` WHERE `subject_id`='" + subo + "' ");
+
+                // delete from teacher_has_subject
+                MysqlConnection.executeIUD("DELETE FROM `teacher_has_subject` WHERE `subject_id`='" + subo + "' ");
+
+            } catch (Exception e) {
+            }
+
+        }
+    }//GEN-LAST:event_deleteButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton deleteButton;
     private javax.swing.JTextField descriptionField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField nameField;
     private javax.swing.JTextField priceField;
-    private javax.swing.JButton resetButton;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 }

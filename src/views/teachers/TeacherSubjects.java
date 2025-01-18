@@ -123,14 +123,18 @@ public class TeacherSubjects extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(subjectsTable);
 
+        jButton1.setBackground(new java.awt.Color(255, 204, 204));
         jButton1.setText("select teacher");
+        jButton1.setOpaque(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
+        jButton2.setBackground(new java.awt.Color(255, 204, 204));
         jButton2.setText("add subject");
+        jButton2.setOpaque(false);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);

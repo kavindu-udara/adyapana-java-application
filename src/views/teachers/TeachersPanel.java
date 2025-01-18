@@ -28,7 +28,8 @@ public class TeachersPanel extends javax.swing.JPanel {
         tableModel.setRowCount(0);
         
         try {
-            ResultSet resultSet = MysqlConnection.executeSearch("SELECT * FROM `teachers`");
+            String searchString = searchField.getText();
+            ResultSet resultSet = MysqlConnection.executeSearch("SELECT * FROM `teachers` WHERE `name` LIKE '%"+searchString+"%' ");
             while (resultSet.next()) {                
                 Vector vector = new Vector();
                 vector.add(resultSet.getString("id"));
@@ -58,6 +59,7 @@ public class TeachersPanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         addButton = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        searchField = new javax.swing.JTextField();
 
         teacherTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -84,17 +86,27 @@ public class TeachersPanel extends javax.swing.JPanel {
 
         jLabel1.setText("Teachers");
 
+        addButton.setBackground(new java.awt.Color(255, 204, 204));
         addButton.setText("add");
+        addButton.setOpaque(false);
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addButtonActionPerformed(evt);
             }
         });
 
+        jButton1.setBackground(new java.awt.Color(255, 204, 204));
         jButton1.setText("add teacher subjects");
+        jButton1.setOpaque(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        searchField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchFieldKeyReleased(evt);
             }
         });
 
@@ -111,6 +123,8 @@ public class TeachersPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton1)
                         .addGap(18, 18, 18)
                         .addComponent(addButton)
@@ -123,7 +137,8 @@ public class TeachersPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(addButton)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
                 .addContainerGap())
@@ -154,12 +169,18 @@ public class TeachersPanel extends javax.swing.JPanel {
         new TeacherSubjects(null, true).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void searchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyReleased
+        // TODO add your handling code here:
+        loadTableData();
+    }//GEN-LAST:event_searchFieldKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField searchField;
     private javax.swing.JTable teacherTable;
     // End of variables declaration//GEN-END:variables
 }

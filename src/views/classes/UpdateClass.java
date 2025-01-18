@@ -144,7 +144,9 @@ public class UpdateClass extends javax.swing.JDialog {
         setTitle("Update Class");
         setResizable(false);
 
+        resetButton.setBackground(new java.awt.Color(255, 204, 204));
         resetButton.setText("Reset");
+        resetButton.setOpaque(false);
         resetButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 resetButtonActionPerformed(evt);
@@ -164,7 +166,9 @@ public class UpdateClass extends javax.swing.JDialog {
 
         jLabel3.setText("Time Slot");
 
+        updateButton.setBackground(new java.awt.Color(255, 204, 204));
         updateButton.setText("Update");
+        updateButton.setOpaque(false);
         updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateButtonActionPerformed(evt);

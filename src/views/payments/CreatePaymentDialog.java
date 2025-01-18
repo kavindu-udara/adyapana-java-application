@@ -142,6 +142,7 @@ public class CreatePaymentDialog extends javax.swing.JDialog {
 
         jLabel3.setText("price");
 
+        createButton.setBackground(new java.awt.Color(255, 204, 204));
         createButton.setText("create");
         createButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

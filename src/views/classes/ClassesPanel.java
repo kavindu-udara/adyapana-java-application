@@ -27,14 +27,15 @@ public class ClassesPanel extends javax.swing.JPanel {
         DefaultTableModel tableModel = (DefaultTableModel) classTable.getModel();
         tableModel.setRowCount(0);
         try {
-            ResultSet resultSet = MysqlConnection.executeSearch("SELECT * FROM `classes` ");
+            String searchString = searchField.getText();
+            ResultSet resultSet = MysqlConnection.executeSearch("SELECT * FROM `classes` INNER JOIN `subjects` ON `classes`.`subject_id`=`subjects`.`id` INNER JOIN `teachers` ON `classes`.`teacher_id`=`teachers`.`id` INNER JOIN `timeslots` ON `classes`.`timeslots_id`=`timeslots`.`id` WHERE `classes`.`name` LIKE '%"+searchString+"%' ");
             while (resultSet.next()) {                
                 Vector vector = new Vector();
                 vector.add(resultSet.getString("id"));
-                vector.add(resultSet.getString("subject_id"));
-                vector.add(resultSet.getString("teacher_id"));
-                vector.add(resultSet.getString("timeslots_id"));
-                vector.add(resultSet.getString("name"));
+                vector.add(resultSet.getString("classes.name"));
+                vector.add(resultSet.getString("subjects.name"));
+                vector.add(resultSet.getString("teachers.name"));
+                vector.add(resultSet.getString("timeslots.started_at") +"-"+ resultSet.getString("timeslots.end_at"));
                 
                 tableModel.addRow(vector);
             }
@@ -57,13 +58,14 @@ public class ClassesPanel extends javax.swing.JPanel {
         classTable = new javax.swing.JTable();
         addButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        searchField = new javax.swing.JTextField();
 
         classTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Class No", "Subject No", "Teacher No", "Timeslot", "name"
+                "id", "name", "subject", "teacher", "timeslot"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -81,7 +83,9 @@ public class ClassesPanel extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(classTable);
 
+        addButton.setBackground(new java.awt.Color(255, 204, 204));
         addButton.setText("add");
+        addButton.setOpaque(false);
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addButtonActionPerformed(evt);
@@ -89,6 +93,12 @@ public class ClassesPanel extends javax.swing.JPanel {
         });
 
         jLabel1.setText("classes");
+
+        searchField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchFieldKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -101,6 +111,8 @@ public class ClassesPanel extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(addButton)))
                 .addContainerGap())
         );
@@ -110,7 +122,8 @@ public class ClassesPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addButton)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
                 .addContainerGap())
@@ -136,11 +149,17 @@ public class ClassesPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_classTableMouseClicked
 
+    private void searchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyReleased
+        // TODO add your handling code here:
+        loadTableData();
+    }//GEN-LAST:event_searchFieldKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.JTable classTable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField searchField;
     // End of variables declaration//GEN-END:variables
 }
