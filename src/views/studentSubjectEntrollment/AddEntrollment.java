@@ -108,6 +108,7 @@ public class AddEntrollment extends javax.swing.JDialog {
         createButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Add entrollment");
         setResizable(false);
 
         jLabel1.setText("Student");

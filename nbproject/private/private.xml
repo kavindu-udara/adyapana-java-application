@@ -3,19 +3,31 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/teachers/TeacherSelector.java</file>
+            <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/studentSubjectEntrollment/AddEntrollment.java</file>
             <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/classes/ClassesPanel.java</file>
             <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/classes/UpdateClass.java</file>
-            <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/classes/RegisterTimeSlot.java</file>
+            <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/teachers/RegisterTeacher.java</file>
             <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/studentSubjectEntrollment/StudentSubjectEntrollment.java</file>
+            <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/includes/MysqlConnection.java</file>
+            <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/teachers/TeacherSubjects.java</file>
             <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/payments/PaymentPanel.java</file>
             <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/payments/CreatePaymentDialog.java</file>
-            <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/studentSubjectEntrollment/RegisterEntrollment.java</file>
             <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/classes/RegisterClass.java</file>
-            <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/students/StudentsPanel.java</file>
             <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/attendance/AttendancePanel.java</file>
-            <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/Dashboard.java</file>
+            <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/teachers/SubjectSelector.java</file>
+            <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/teachers/TeachersPanel.java</file>
+            <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/students/RegitserStudent.java</file>
             <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/studentSubjectEntrollment/UpdateEntrollment.java</file>
+            <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/subjects/RegisterSubject.java</file>
+            <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/classes/RegisterTimeSlot.java</file>
+            <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/subjects/UpdateSubject.java</file>
+            <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/subjects/SubjectsPanel.java</file>
+            <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/students/StudentsPanel.java</file>
+            <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/Dashboard.java</file>
+            <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/students/UpdateStudent.java</file>
             <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/attendance/StudentSelector.java</file>
+            <file>file:/J:/projects/java%20projects/NetBeansProjects/sad-assignment/src/views/teachers/UpdateTeacher.java</file>
         </group>
     </open-files>
 </project-private>

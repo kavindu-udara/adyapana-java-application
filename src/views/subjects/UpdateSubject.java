@@ -149,7 +149,7 @@ public class UpdateSubject extends javax.swing.JDialog {
 
         try {
             Double priceDouble = Double.parseDouble(price);
-            MysqlConnection.executeIUD("UPDATE `subjects` SET `description`='" + description + "', `price`='" + priceDouble + "', `name`='" + name + "' ");
+            MysqlConnection.executeIUD("UPDATE `subjects` SET `description`='" + description + "', `price`='" + priceDouble + "', `name`='" + name + "' WHERE `id`='"+subo+"' ");
             JOptionPane.showMessageDialog(this, "account updated");
             reloadTableAction.run();
             dispose();

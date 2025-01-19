@@ -99,6 +99,7 @@ public class TeacherSubjects extends javax.swing.JDialog {
         teacherNameValue = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Add teacher subjects");
         setResizable(false);
 
         jLabel1.setText("Teacher Id");
